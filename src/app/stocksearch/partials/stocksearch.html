@@ -1,0 +1,137 @@
+<div class="col-md-offset-1">
+  <h2>Stock Lookup</h2><br/><br/>
+</div>
+
+<html lang='en' ng-app="template">
+
+<head>
+  <meta charset="utf-8">
+  <title>RC-AJS102 Yahoo Finance API</title>
+  <!-- CSS -->
+  <link rel='stylesheet' href='../../bower_components/bootstrap/dist/css/bootstrap.css'/>
+  <link rel="stylesheet" href="../../bower_components/angular-chart.js/dist/angular-chart.css">
+  <script type="text/javascript" src="../../bower_components/angular/angular.js"></script>
+  <script src="../../bower_components/Chart.js/Chart.min.js"></script>
+  <script src="../../bower_components/angular-chart.js/dist/angular-chart.js"></script>
+  <script>
+    $(function () {
+      $(".datePicker").datepicker({dateFormat: 'yy-mm-dd'});
+    });
+  </script>
+
+  <style type="text/css">
+    .big-checkbox {
+      width: 19px;
+      height: 19px;
+    }
+
+    .red {
+      color: red;
+    }
+
+    .green {
+      color: green;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<form id="form1" method="post">
+  <div class="row">
+    <div class="form-group col-lg-4 col-md-offset-1">
+      <label>Ticker Symbol</label>
+      <input type="text" capitalize placeholder="Stock code, e.g. AAPL" class="form-control" name="symbol" ng-model="sctrl.symbol" autocomplete="off"/>
+    </div>
+  </div>
+  <div class="row col-md-offset-1">
+    <button class="btn btn-primary" ng-click="sctrl.getData()">Get Price</button>
+    <button class="btn btn-primary" ng-click="sctrl.clearData()">Clear</button>
+  </div>
+
+  <div ng-hide="sctrl.result.Name==null" class="col-md-offset-1">
+
+    <div class="row row-list">
+      <div class="col-xs-3"><br/>
+        <h4><span><b>Name:&nbsp;</b></span><span ng-bind="sctrl.result.Name"></span><br/></h4>
+        <h4><span><b>Exchange:&nbsp;</b></span><span ng-bind="sctrl.result.Exchange"></span><br/></h4>
+        <h4><span><b>MarketCap:&nbsp;</b></span><span ng-bind="sctrl.result.MarketCap"></span><br/></h4>
+        <h4><span><b>LastPrice:&nbsp;</b></span><span ng-bind="sctrl.result.LastPrice"></span><br/></h4>
+        <h4><span><b>PercentChange:&nbsp;</b></span>
+                <span ng-class="{red:sctrl.result.PercentChange.indexOf('-')!= -1,green:sctrl.result.PercentChange.indexOf('-')== -1 }"
+                      ng-bind="sctrl.result.PercentChange"></span><br/></h4>
+        <h4><span><b>YearRange:&nbsp;</b></span><span ng-bind="sctrl.result.YearRange"></span><br/></h4>
+      </div>
+      <div class="col-xs-9 container-img">
+        <div class="form-group col-lg-6 col-md-offset-1 col-md-8"
+             ng-show="sctrl.historicalDisplay && sctrl.tableDataHistorical.length>0">
+          <canvas id="line" class="chart chart-line" chart-data="data"
+                  chart-labels="labels" chart-legend="true" chart-series="series"
+                  chart-click="onClick">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <table>
+      <tr>
+        <td><br/><br/><br/></td>
+      </tr>
+
+      <tr>
+        <td><input type="checkbox" class="checkbox big-checkbox" ng-model="sctrl.historicalDisplay"
+                   value="Get Historical"></td>
+        <td><h4><span class="mark" style="align:center">Show Historical Data</span></h4></td>
+
+      </tr>
+      <tr>
+        <td><br/><br/><br/></td>
+      </tr>
+    </table>
+
+
+    <div ng-show="sctrl.historicalDisplay">
+      <!--<input type="text" placeholder="Enter Start Date" class="datePicker" id="startDate"
+             ng-model="sctrl.startDate" data-date-format="yyyy-mm-dd" bs-datepicker>-->
+      <input type="text" placeholder="Enter Start Date" ng-model="sctrl.startDate"
+             data-date-format="yyyy-MM-dd"  date-type="string"
+             data-min-date="02/10/86" data-max-date="today" data-autoclose="1" name="date2" bs-datepicker>
+      <input type="text" placeholder="Enter End Date" ng-model="sctrl.endDate"
+             data-date-format="yyyy-MM-dd" date-type="string"
+             data-min-date="02/10/86" data-max-date="today" data-autoclose="1" name="date2" bs-datepicker>
+
+      <button class="btn btn-primary" ng-click="sctrl.getHistoricalData()">Go</button>
+      <br/><br/>
+    </div>
+
+
+    <div ng-show="sctrl.historicalDisplay && sctrl.tableDataHistorical.length>0">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>High</th>
+          <th>Low</th>
+          <th>Close</th>
+        </tr>
+        </thead>
+        <tr ng-repeat="row in sctrl.tableDataHistorical | orderBy : 'Date' ">
+          <td>{{$index+1}}</td>
+          <td>{{row.Date}}</td>
+          <td>${{row.High}}</td>
+          <td>${{row.Low}}</td>
+          <td>${{row.Close}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</form>
+
+<!-- JS -->
+<!-- // <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script> -->
+
+
+</body>
+</html>
