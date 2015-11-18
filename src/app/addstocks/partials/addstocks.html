@@ -2,9 +2,48 @@
 </head>
 
 <div class="col-lg-4 col-md-offset-1">
-  <h3>Add Stocks</h3>
-<label></label><input type="textbox" placeholder="Ticker Symbol" ng-model="acctrl.tickerSymbol"/>&nbsp;&nbsp;
-<input type="button" ng-click="acctrl.addStock(acctrl.tickerSymbol)" value="Add"/>
+  <h3>{{acctrl.profileName}}  Stock Purchase Details</h3>
+<input type="textbox" placeholder="Ticker Symbol" ng-model="acctrl.tickerSymbol"/>&nbsp;&nbsp;
+<input type="textbox" placeholder="Number of Shares" ng-model="acctrl.numOfShares"/>&nbsp;&nbsp;
+  <input type="text" placeholder="Purchase Date" ng-model="acctrl.startDate"
+         data-date-format="yyyy-MM-dd"  date-type="string"
+         data-min-date="02/10/86" data-max-date="today" data-autoclose="1" name="date2" bs-datepicker>&nbsp;&nbsp;
+<input type="button" ng-click="acctrl.addStock(acctrl.tickerSymbol, acctrl.numOfShares, acctrl.startDate)" value="Add"/>
+
+  <br/><br/>
+
+  <h4><span><b>Name:&nbsp;</b></span><span ng-bind="acctrl.result.Name"></span><br/></h4>
+  <h4><span><b>Symbol:&nbsp;</b></span><span ng-bind="acctrl.displaySymbol"></span><br/></h4>
+  <h4><span><b>Exchange:&nbsp;</b></span><span ng-bind="acctrl.result.Exchange"></span><br/></h4>
+
+  <br/><br/>
+
+  <div>
+    <table class="table" width="50%" ng-hide="acctrl.stocksProfile==null||acctrl.stocksProfile.length==0">
+      <thead>
+      <tr>
+        <th>Date</th>
+        <th>Symbol</th>
+        <th>Stock</th>
+        <th>High</th>
+        <th>Low</th>
+        <th>Close</th>
+        <th>Num.Shares</th>
+        <th>Invested Amount (Approx.)</th>
+      </tr>
+      </thead>
+      <tr ng-repeat="row in acctrl.stocksProfile">
+        <td>{{row.Date}}</td>
+        <td>{{row.ticker}}</td>
+        <td>{{row.name}}</td>
+        <td>${{row.high}}</td>
+        <td>${{row.low}}</td>
+        <td>${{row.close}}</td>
+        <td>{{row.numOfShares}}</td>
+        <td>${{row.close * row.numOfShares}}</td>
+      </tr>
+    </table>
+  </div>
 
 </div>
 </html>

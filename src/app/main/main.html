@@ -1,4 +1,24 @@
-<div class="container">
-<h3>Home State</h3>
+<!DOCTYPE html>
+<html>
+<head>
+  <style type="text/css">
+    :required:focus {
+      box-shadow: 0  0 3px rgba(255,0,0,0.5);
+    }
+    </style>
+</head>
+<body>
+<form>
+<div class="container col-lg-4 col-md-offset-1">
+<span style="font-size: 24px">Profile Name:</span>
+  <input type="text" required placeholder="Enter" ng-model="ctrl.profileName" ng-show="ctrl.isNullProfile">&nbsp;&nbsp;
+  <input type="button" ng-click="ctrl.addProfileName(ctrl.profileName)" value="{{ ctrl.editClicked ?'Update':'Add'}}" ng-show="ctrl.isNullProfile"/>
 
+  <span style="font-size: 24px" ng-bind="ctrl.profileName" ng-hide="ctrl.isNullProfile"></span>
+  &nbsp;&nbsp;<input type="button" ng-click="ctrl.editProfileName(ctrl.profileName)" value="Edit" ng-hide="ctrl.isNullProfile"/>
+  &nbsp;&nbsp;<input type="button" ng-click="ctrl.deleteProfileName()" value="Delete" ng-hide="ctrl.isNullProfile"/>
 </div>
+</form>
+</body>
+</html>
+

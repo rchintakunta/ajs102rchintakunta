@@ -2,13 +2,34 @@
 </head>
 
 <div class="col-lg-4 col-md-offset-1">
-  <h3>List of Stocks</h3>
+  <h3> {{slistctrl.profileName}} List of Stocks</h3>
 
-  <table>
-    <tr ng-repeat="t in slistctrl.stocksList">
-      <td>{{index+1}}. {{t}}</td>
-      <td><a ui-sref="#/stocksearch?symbol=bbry">link</a></td>
-    </tr>
-  </table>
+  <div>
+    <table class="table" width="50%" ng-hide="slistctrl.stocksProfile==null||slistctrl.stocksProfile.length==0">
+      <thead>
+      <tr>
+        <th>Date</th>
+        <th>Symbol</th>
+        <th>Stock</th>
+        <th>High</th>
+        <th>Low</th>
+        <th>Close</th>
+        <th>Num.Shares</th>
+        <th>Invested Amount (Approx.)</th>
+      </tr>
+      </thead>
+      <tr ng-repeat="row in slistctrl.stocksProfile">
+        <td>{{row.Date}}</td>
+        <td>{{row.ticker}}</td>
+        <td>{{row.name}}</td>
+        <td>${{row.high}}</td>
+        <td>${{row.low}}</td>
+        <td>${{row.close}}</td>
+        <td>{{row.numOfShares}}</td>
+        <td>${{row.close * row.numOfShares}}</td>
+      </tr>
+    </table>
+  </div>
+
 </div>
 </html>
