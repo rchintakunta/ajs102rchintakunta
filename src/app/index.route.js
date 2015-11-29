@@ -26,7 +26,7 @@
 
       })
       .state(UI_ROUTES.kAddStocks.stateName, {
-        url: '/addcontacts',
+        url: '/addstocks',
         templateUrl: 'app/addstocks/partials/addstocks.html',
         controller: 'addstocksctrl as acctrl'
       })

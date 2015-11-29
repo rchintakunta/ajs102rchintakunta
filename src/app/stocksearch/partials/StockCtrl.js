@@ -25,7 +25,9 @@
       };
     })
 
-    .controller('StockCtrl', function ($scope, $http) {
+
+
+    .controller('StockCtrl', function ($scope, $http, stockService) {
       var self = this;
       self.symbol = "";
       self.startDate = "";
@@ -61,7 +63,7 @@
                 self.result.Name = data.query.results.quote.Name;
                 self.result.Exchange = data.query.results.quote.StockExchange;
                 self.result.MarketCap = "$"+ data.query.results.quote.MarketCapitalization;
-                self.result.LastPrice = "$"+ data.query.results.quote.LastTradePriceOnly;
+                self.result.LastPrice = "$"+ stockService.getRoundedPrice(data.query.results.quote.LastTradePriceOnly);
                 self.result.PercentChange = data.query.results.quote.PercentChange;
                 self.result.YearRange = "$"+ data.query.results.quote.YearRange;
               }
@@ -104,7 +106,7 @@
               $scope.idata=[];
               angular.forEach(self.tableDataHistorical, function(item){
                 $scope.labels.push(item.Date);
-                $scope.idata.push(item.Close);
+                $scope.idata.push(stockService.getRoundedPrice(item.Close));
               })
               $scope.labels = $scope.labels.reverse();
               $scope.data.push($scope.idata.reverse());
@@ -134,6 +136,10 @@
         $scope.labels=[];
         $scope.data=[];
 
+      }
+
+      self.getRoundedPrice = function(price){
+        return stockService.getRoundedPrice(price);
       }
     });
 

@@ -3,20 +3,33 @@
 <head>
   <style type="text/css">
     :required:focus {
-      box-shadow: 0  0 3px rgba(255,0,0,0.5);
+      box-shadow: 0 0 3px rgba(255, 0, 0, 0.5);
     }
-    </style>
+  </style>
 </head>
 <body>
 <form>
-<div class="container col-lg-4 col-md-offset-1">
-<span style="font-size: 24px">Profile Name:</span>
-  <input type="text" required placeholder="Enter" ng-model="ctrl.profileName" ng-show="ctrl.isNullProfile">&nbsp;&nbsp;
-  <input type="button" ng-click="ctrl.addProfileName(ctrl.profileName)" value="{{ ctrl.editClicked ?'Update':'Add'}}" ng-show="ctrl.isNullProfile"/>
-
-  <span style="font-size: 24px" ng-bind="ctrl.profileName" ng-hide="ctrl.isNullProfile"></span>
-  &nbsp;&nbsp;<input type="button" ng-click="ctrl.editProfileName(ctrl.profileName)" value="Edit" ng-hide="ctrl.isNullProfile"/>
-  &nbsp;&nbsp;<input type="button" ng-click="ctrl.deleteProfileName()" value="Delete" ng-hide="ctrl.isNullProfile"/>
+<div class="row">
+  <div class="input-group col-xs-4 col-md-offset-1">
+    <input type="text" required placeholder="Enter a Profile Name" class="col-xs-3 form-control col-md-offset-1 "
+           ng-model="ctrl.profileName">
+  <span class="input-group-btn">
+    <button class="btn btn-default btn btn-primary" ng-click="ctrl.addProfileName(ctrl.profileName)">Add</button>
+  </span>
+  </div>
+<div class="input-group col-xs-4 col-md-offset-1">
+    <br/><br/><br/><br/>
+    <h4 ng-show="ctrl.profileList.length" class="col-md-offset-1">Available Profiles<br/></h4>
+    <table class="table table-striped table-hover col-md-offset-1"  ng-show="ctrl.profileList.length">
+      <th>Name</th>
+      <th>Action</th>
+      <tr ng-repeat="item in ctrl.profileList">
+        <td><span ng-bind="item.name"></span></td>
+        <td><input type="button" class="btn btn-primary" ng-click="ctrl.deleteProfile($index)" value="Delete" />
+        </td>
+      </tr>
+    </table>
+  </div>
 </div>
 </form>
 </body>

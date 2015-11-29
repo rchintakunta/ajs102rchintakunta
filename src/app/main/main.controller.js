@@ -1,36 +1,36 @@
-
-
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('template')
     .controller('MainController', function (stockService) {
-    	var self = this;
+      var self = this;
       self.profileName = '';
+      self.profileList = stockService.getProfileList();
       self.isNullProfile = true;
       self.editClicked = false;
 
-      self.addProfileName = function(profileName){
+      self.addProfileName = function (profileName) {
+        if (profileName.trim()==''){
+          return;
+        }
         self.profileName = profileName;
         self.isNullProfile = false;
         stockService.addProfileName(profileName);
+        self.profileName = '';
       }
 
-      self.editProfileName = function (profileName){
-        self.isNullProfile = true;
-        self.editClicked = true;
-        self.profileName = stockService.updateProfileName(profileName);
+      self.getProfileList = function () {
+        self.profileList = stockService.getProfileList();
+        return self.profileList;
       }
 
-      self.deleteProfileName = function(){
-        self.isNullProfile = true;
-        self.editClicked = false;
-        self.profileName = stockService.updateProfileName('');
+      self.deleteProfile = function (index) {
+        self.profileList = stockService.getProfileList();
+        self.profileList.splice(index, 1);
       }
 
-
-  });
+    });
 
 
 })()

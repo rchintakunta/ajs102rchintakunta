@@ -17,9 +17,9 @@
       self.stocksListSrv = [];
       self.profileName = '';
       self.stocksProfile=[];
+      self.profileList=[];
 
     	this.addStock = function(symbol,numOfShares ){
-    		console.log('from service: ',symbol);
         self.stocksListSrv.push({
           "ticker": symbol,
           "numShares": numOfShares
@@ -33,7 +33,8 @@
 
       this.addProfileName = function(profileName){
         self.profileName=profileName;
-        console.log(self.profileName);
+        var item = {"name":profileName}
+        self.profileList.push(item);
       }
 
       this.updateProfileName = function(profileName){
@@ -45,17 +46,22 @@
         return self.profileName;
       }
 
+      this.getProfileList = function(){
+        return self.profileList;
+      }
 
-      this.updateStockProfile = function(hisData, date, numOfShares, name ){
-        console.log(numOfShares);
+
+      this.updateStockProfile = function(profileName, hisData, date, numOfShares, name, lastTradedPrice ){
         self.stocksProfile.push({
           "ticker": hisData.Symbol,
           "Date":date,
           "numOfShares":numOfShares,
-          "high":hisData.High,
-          "low":hisData.Low,
-          "close":hisData.Close,
-          "name":name
+          "high":this.getRoundedPrice(hisData.High),
+          "low":this.getRoundedPrice(hisData.Low),
+          "close":this.getRoundedPrice(hisData.Close),
+          "name":name,
+          "profileName":profileName,
+          "lastTradedPrice":lastTradedPrice
         })
 
         return self.stocksProfile;
@@ -66,6 +72,10 @@
         return self.stocksProfile;
       }
 
+
+      this.getRoundedPrice = function (price){
+        return Math.round(price * 100) / 100;
+      }
 
     });
 

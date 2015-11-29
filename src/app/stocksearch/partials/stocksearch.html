@@ -40,7 +40,7 @@
 
 <form id="form1" method="post">
   <div class="row">
-    <div class="form-group col-lg-4 col-md-offset-1">
+    <div class="form-group col-xs-4 col-md-offset-1">
       <label>Ticker Symbol</label>
       <input type="text" capitalize placeholder="Stock code, e.g. AAPL" class="form-control" name="symbol" ng-model="sctrl.symbol" autocomplete="off"/>
     </div>
@@ -84,45 +84,39 @@
                    value="Get Historical"></td>
         <td><h4><span class="mark" style="align:center">Show Historical Data</span></h4></td>
 
-      </tr>
-      <tr>
-        <td><br/><br/><br/></td>
-      </tr>
+
+      <td><div ng-show="sctrl.historicalDisplay">
+        <!--<input type="text" placeholder="Enter Start Date" class="datePicker" id="startDate"
+               ng-model="sctrl.startDate" data-date-format="yyyy-mm-dd" bs-datepicker>-->
+        &nbsp;&nbsp;&nbsp;<b>From:</b>&nbsp;&nbsp;&nbsp;<input type="text" placeholder="Enter Start Date" ng-model="sctrl.startDate"
+               data-date-format="yyyy-MM-dd"  date-type="string"
+               data-min-date="02/10/86" data-max-date="today" data-autoclose="1" name="date2" bs-datepicker>
+        &nbsp;&nbsp;&nbsp; <b>To:&nbsp;&nbsp;&nbsp;</b><input type="text" placeholder="Enter End Date" ng-model="sctrl.endDate"
+               data-date-format="yyyy-MM-dd" date-type="string"
+               data-min-date="02/10/86" data-max-date="today" data-autoclose="1" name="date2" bs-datepicker>
+
+        <button class="btn btn-primary" ng-click="sctrl.getHistoricalData()">Go</button>
+        <br/><br/>
+      </div></td>      </tr>
     </table>
 
 
-    <div ng-show="sctrl.historicalDisplay">
-      <!--<input type="text" placeholder="Enter Start Date" class="datePicker" id="startDate"
-             ng-model="sctrl.startDate" data-date-format="yyyy-mm-dd" bs-datepicker>-->
-      <input type="text" placeholder="Enter Start Date" ng-model="sctrl.startDate"
-             data-date-format="yyyy-MM-dd"  date-type="string"
-             data-min-date="02/10/86" data-max-date="today" data-autoclose="1" name="date2" bs-datepicker>
-      <input type="text" placeholder="Enter End Date" ng-model="sctrl.endDate"
-             data-date-format="yyyy-MM-dd" date-type="string"
-             data-min-date="02/10/86" data-max-date="today" data-autoclose="1" name="date2" bs-datepicker>
-
-      <button class="btn btn-primary" ng-click="sctrl.getHistoricalData()">Go</button>
-      <br/><br/>
-    </div>
 
 
-    <div ng-show="sctrl.historicalDisplay && sctrl.tableDataHistorical.length>0">
-      <table class="table">
-        <thead>
-        <tr>
+
+    <div ng-show="sctrl.historicalDisplay && sctrl.tableDataHistorical.length>0" class="col-lg-6">
+      <table class="table table-striped table-hover">
           <th>#</th>
           <th>Date</th>
           <th>High</th>
           <th>Low</th>
           <th>Close</th>
-        </tr>
-        </thead>
         <tr ng-repeat="row in sctrl.tableDataHistorical | orderBy : 'Date' ">
           <td>{{$index+1}}</td>
           <td>{{row.Date}}</td>
-          <td>${{row.High}}</td>
-          <td>${{row.Low}}</td>
-          <td>${{row.Close}}</td>
+          <td>$ {{sctrl.getRoundedPrice( row.High)}}</td>
+          <td>$ {{sctrl.getRoundedPrice( row.Low)}}</td>
+          <td>$ {{sctrl.getRoundedPrice( row.Close)}}</td>
         </tr>
       </table>
     </div>
